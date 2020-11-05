@@ -1,0 +1,5 @@
+.vscode/
+.pytest_cache/
+./week05-testing/__pycache__
+./week05-testing/pytest_cache
+./week05-testing/vscode
