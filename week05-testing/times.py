@@ -4,6 +4,10 @@ import datetime
 def time_range(start_time, end_time, number_of_intervals=1, gap_between_intervals_s=0):
     start_time_s = datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
     end_time_s = datetime.datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+
+    if start_time_s > end_time_s:
+        raise ValueError("Start time cannot be larger than end time.")
+
     # d is duration of an interval
     # rewritten to be more intuitive, brevity sacrificed readability
     d = ((end_time_s - start_time_s).total_seconds() - (number_of_intervals - 1) * gap_between_intervals_s) / number_of_intervals
