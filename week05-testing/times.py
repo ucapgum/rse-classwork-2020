@@ -1,4 +1,7 @@
 import datetime
+import json
+import requests
+import time
 
 
 def time_range(start_time, end_time, number_of_intervals=1, gap_between_intervals_s=0):
@@ -26,3 +29,20 @@ def compute_overlap_time(range1, range2):
             if low < high:
                 overlap_time.append((low, high))
     return overlap_time
+
+def iss_passes(lat, lon, n):
+    data = requests.get("http://api.open-notify.org/iss-pass.json",
+                        params={
+                            "lat" : lat,
+                            "lon" : lon,
+                            "n" : n
+                            }
+                        ).json()['response']
+    
+    passes = []
+    for x in data:
+        start_time = datetime.datetime.fromtimestamp(x['risetime']).strftime('%Y-%m-%d %H:%M:%S')
+        end_time = datetime.datetime.fromtimestamp(x['risetime'] + x['duration']).strftime('%Y-%m-%d %H:%M:%S')
+        passes.append((start_time, end_time))
+
+    return passes
